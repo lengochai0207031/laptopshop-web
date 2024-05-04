@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %> <%@taglib
-uri="http://www.springframework.org/tags/form" prefix="form"%>
+uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <html lang="en">
   <head>
@@ -27,8 +27,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           <h3>Create a user</h3>
           <hr />
           <form:form
-            action="/admin/user/create1"
-            method="POST"
+            method="post"
+            action="/admin/user/create"
             modelAttribute="newUser"
           >
             <div class="mb-3">
