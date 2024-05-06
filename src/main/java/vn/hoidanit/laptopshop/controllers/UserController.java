@@ -7,8 +7,16 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+
+
 
 
 
@@ -45,6 +53,16 @@ public String getUserPage(Model model) {
     return "admin/user/table_users";
 }
 
+@RequestMapping("/admin/user/{id}")
+public String getDetailUser(Model model , @PathVariable long id) {
+   User user = this.userService.getAllUsersById(id);
+    System.out.println("check >>>> "+user);
+    // user bên này thì chuyền bên user . bên  kia như z nha chứ sao không hiển dữ liệu lên đưoẹc nha bjan 
+    model.addAttribute("user", user);
+    model.addAttribute("id", id);
+    return "/admin/user/detailUser" ;
+}
+
 @RequestMapping("/admin/user/create") // GET
 public String getCreateUserPage(Model model) {
     model.addAttribute("newUser", new User());
@@ -57,6 +75,51 @@ public String createUserPage(Model model, @ModelAttribute("newUser") User hoidan
     this.userService.handleSaveUser(hoidanit);
     return "redirect:/admin/user";
 }
+
+
+
+
+@RequestMapping("/admin/user/updateUsers/{id}")
+public String getUpdatePage(Model model, @PathVariable long id) {
+    User updateUser  =this.userService.getAllUsersById(id);
+    System.out.println("checkk >>>>> " + updateUser);
+    model.addAttribute("newUser", updateUser);
+   
+    return "admin/user/updateUser";
+}
+
+@PostMapping("/admin/user/updateUsers")
+public String postUpdate(Model model  ,@ModelAttribute("newUser") User hoidanit) {
+    User updateUser = this.userService.getAllUsersById(hoidanit.getId());
+    if (updateUser != null) {
+         updateUser.setEmail(hoidanit.getEmail());
+         updateUser.setFullName(hoidanit.getFullName());
+         updateUser.setAddress(hoidanit.getAddress());
+         updateUser.setPhone(hoidanit.getPhone());
+         this.userService.handleSaveUser(updateUser); 
+    }
+    return "redirect:/admin/user";
+}
+
+
+  
+@RequestMapping("/admin/user/delete/{id}")
+public String getDeleteUseString(Model model ,@PathVariable long id) {
+    // User user = new User();
+    // user.setId(id);
+    model.addAttribute("id", id);
+    model.addAttribute("newUser",new User());
+
+    return "admin/user/delete";
+}
+
+@PostMapping("/admin/user/delete")
+public String postDeleteUser(Model model, @ModelAttribute("newUser") User eric) {
+    // System.out.println("check >>>> " + eric);
+    this.userService.deleteUser(eric.getId());
+    return  "redirect:/admin/user" ;
+}
+
 }
 
 
