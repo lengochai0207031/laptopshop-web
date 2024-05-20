@@ -1,9 +1,14 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +20,14 @@ public class Order {
 
     private double totalPrice;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User users;
+
+    @OneToMany( mappedBy = "order")
+    Set<OrderDetail> orderDetails;
+
+    @OneToMany 
     // user id
 
     public long getId() {

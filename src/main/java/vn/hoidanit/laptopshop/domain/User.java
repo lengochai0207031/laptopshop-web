@@ -1,9 +1,16 @@
 package vn.hoidanit.laptopshop.domain;
 
+
+
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -19,6 +26,15 @@ public class User {
     private String address ;
     private String phone ;
     private String avatar ;
+// user  many to one relationship
+  // quan hệ nhiêu một
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @OneToMany(mappedBy  ="users")
+     Set<Order> order;
+
     public long getId() {
         return id;
     }

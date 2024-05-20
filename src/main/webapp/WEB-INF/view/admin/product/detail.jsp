@@ -6,7 +6,7 @@ uri="http://www.springframework.org/tags/form" prefix="form" %>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Table Users ${id}</title>
+    <title>Table Users</title>
     <!-- Latest compiled and minified CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -25,7 +25,7 @@ uri="http://www.springframework.org/tags/form" prefix="form" %>
       <div class="row">
         <div class="col-12 mx-auto">
           <div class="d-flex justify-content-between">
-            <h3>Details Produc ${id}</h3>
+            <h3>Details Users</h3>
           </div>
 
           <hr />
@@ -34,12 +34,19 @@ uri="http://www.springframework.org/tags/form" prefix="form" %>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">${product.id}</li>
               <li class="list-group-item">${product.name}</li>
-              <li class="list-group-item">${product.age}</li>
+              <li class="list-group-item">${product.price}</li>
+              <li class="list-group-item">${product.image}</li>
+              <li class="list-group-item">${product.detailDesc}</li>
+              <li class="list-group-item">${product.shortDesc}</li>
+              <li class="list-group-item">${product.quantity}</li>
+              <li class="list-group-item">${product.sold}</li>
+              <li class="list-group-item">${product.factory}</li>
+              <li class="list-group-item">${product.target}</li>
             </ul>
           </div>
         </div>
       </div>
-      <a href="/admin/product" class="btn btn-primary"> Table User</a>
+      <a href="/admin/user" class="btn btn-primary"> Table User</a>
     </div>
   </body>
 </html>

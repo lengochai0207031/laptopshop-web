@@ -1,34 +1,27 @@
-package vn.hoidanit.laptopshop.controllers;
+package vn.hoidanit.laptopshop.controllers.admin;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.services.UserService;
-
 import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
-
-
-
-
-
-
-
-
-
 
 @Controller
 
 public class UserController {
 
-    private UserService userService;
-    public UserController(UserService userService ) {
-        this.userService = userService;
+    private final UserService userService;
+    private final  PasswordEncoder passwordEncoder;
+    
+    
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+       this.userService = userService;
+       this.passwordEncoder = passwordEncoder;
         
     }
 
@@ -43,7 +36,7 @@ public class UserController {
         // ở đay return ko có duôi nha cmmm 
     
 }
-@RequestMapping("/admin/user")
+@GetMapping("/admin/user")
 public String getUserPage(Model model) {
     List<User> users = this.userService.getUserPage();
     System.out.println("check >>>>>"+users);
@@ -51,7 +44,7 @@ public String getUserPage(Model model) {
     return "admin/user/table_users";
 }
 
-@RequestMapping("/admin/user/{id}")
+@GetMapping("/admin/user/{id}")
 public String getDetailUser(Model model , @PathVariable long id) {
    User user = this.userService.getAllUsersById(id);
     System.out.println("check >>>> "+user);
@@ -61,23 +54,27 @@ public String getDetailUser(Model model , @PathVariable long id) {
     return "/admin/user/detailUser" ;
 }
 
-@RequestMapping("/admin/user/create") // GET
+@GetMapping("/admin/user/create") // GET
 public String getCreateUserPage(Model model) {
     model.addAttribute("newUser", new User());
     return "admin/user/create";
 }
 
-@RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-public String createUserPage(Model model, @ModelAttribute("newUser") User hoidanit) {
-    System.out.println(" run here " + hoidanit);
-    this.userService.handleSaveUser(hoidanit);
+@PostMapping(value = "/admin/user/create")
+public String createUserPage(Model model, @ModelAttribute("newUser") User user) {
+    System.out.println(" run here " + user);
+
+
+String hashPassword  =this.passwordEncoder.encode(user.getPassWord());
+user.setPassWord(hashPassword);
+    this.userService.handleSaveUser(user);
     return "redirect:/admin/user";
 }
 
 
 
 
-@RequestMapping("/admin/user/updateUsers/{id}")
+@GetMapping("/admin/user/updateUsers/{id}")
 public String getUpdatePage(Model model, @PathVariable long id) {
     User updateUser  =this.userService.getAllUsersById(id);
     System.out.println("checkk >>>>> " + updateUser);
@@ -101,7 +98,7 @@ public String postUpdate(Model model  ,@ModelAttribute("newUser") User hoidanit)
 
 
   
-@RequestMapping("/admin/user/delete/{id}")
+@GetMapping("/admin/user/delete/{id}")
 public String getDeleteUseString(Model model ,@PathVariable long id) {
     // User user = new User();
     // user.setId(id);

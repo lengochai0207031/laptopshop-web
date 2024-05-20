@@ -1,17 +1,25 @@
 package vn.hoidanit.laptopshop.services;
 
 import java.util.List;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import vn.hoidanit.laptopshop.repository.RoleRepository;
 import vn.hoidanit.laptopshop.repository.UserRepository;
+import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;;
 
 @Service
 public class UserService {
   private final UserRepository userRepository;
+private final RoleRepository roleRepository;
+private final  PasswordEncoder passwordEncoder;
 
-
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository , PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
 
@@ -43,6 +51,12 @@ public class UserService {
     }
     public void deleteUser(long id){
     this.userRepository.deleteById(id);
-   
+    }
+
+
+
+    public Role getRoleName(String name){
+ return this.roleRepository.findByName(name);
+    
     }
 }
