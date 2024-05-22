@@ -24,10 +24,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User users;
 
-    @OneToMany( mappedBy = "order")
+    @OneToMany(mappedBy = "order")
     Set<OrderDetail> orderDetails;
 
-    @OneToMany 
+    @OneToMany
     // user id
 
     public long getId() {

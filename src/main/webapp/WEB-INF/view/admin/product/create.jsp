@@ -65,11 +65,12 @@ uri="http://www.springframework.org/tags/form" prefix="form" %>
                       <label for="name" class="form-label">Name Product</label>
                       <form:input
                         type="text"
-                        class="form-control"
+                        class="form-control is-invalid"
                         id="name"
                         placeholder="Product Name"
                         path="name"
                       />
+                      <form:errors path="name" cssClass="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
                       <label for="price" class="form-label"

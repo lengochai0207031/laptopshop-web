@@ -10,10 +10,10 @@ import vn.hoidanit.laptopshop.repository.ProductRepository;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-     public ProductService(ProductRepository productRepository) {
+
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
 
     public Product SaveProduct(Product product) {
         return this.productRepository.save(product);
@@ -23,6 +23,7 @@ public class ProductService {
 
         return this.productRepository.findAll();
     }
+
     public Product getProductDetail(Long id) {
         return this.productRepository.findById(id).get();
     }
@@ -33,5 +34,7 @@ public class ProductService {
         return product;
     }
 
-    
+    public void deleteProductById(long id) {
+        this.productRepository.deleteById(id);
+    }
 }

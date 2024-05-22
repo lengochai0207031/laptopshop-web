@@ -19,10 +19,17 @@
           <script>
             $(document).ready(() => {
               const avatarFile = $("#avatarFile");
+              const orgImage = "${newUser.avatar}";
+              if (orgImage) {
+                const urlImage = "/images/avatar/" + orgImage;
+                $("#avatarPreview").attr("src", urlImage);
+                $("#avatarPreview").css({ "display": "block" });
+              }
+
               avatarFile.change(function (e) {
                 const imgURL = URL.createObjectURL(e.target.files[0]);
                 $("#avatarPreview").attr("src", imgURL);
-                $("#avatarPreview").css({ display: "block" });
+                $("#avatarPreview").css({ "display": "block" });
               });
             });
           </script>
@@ -37,10 +44,16 @@
                 <div class="container mt-5">
                   <div class="row">
                     <div class="col-md-6 col-12 mx-auto">
-                      <h3>Create a user</h3>
+                      <h3>Update a user</h3>
                       <hr />
-                      <form:form class="row g-3" method="post" action="/admin/user/create" modelAttribute="newUser"
+                      <form:form class="row g-3" method="post" action="/admin/user/update" modelAttribute="newUser"
                         enctype="multipart/form-data">
+                        <div class="mb-3 col-12 col-md-6">
+                          <label for="id" class="form-label">ID </label>
+
+                          <form:input type="text" class="form-control " id="id" placeholder="id" path="id" />
+
+                        </div>
                         <div class="mb-3 col-12 col-md-6">
                           <label for="email" class="form-label">Email address</label>
                           <c:set var="emailHasBindError">
@@ -52,16 +65,7 @@
                           <form:errors path="email" cssClass="invalid-feedback" />
                         </div>
 
-                        <div class="mb-3 col-12 col-md-6">
-                          <label for="password" class="form-label">Password</label>
-                          <c:set var="passwordHasBindError">
-                            <form:errors path="passWord" />
-                          </c:set>
-                          <form:input type="password"
-                            class="form-control ${not empty passwordHasBindError ? 'is-invalid' : ''}" id="password"
-                            path="passWord" />
-                          <form:errors path="passWord" cssClass="invalid-feedback" />
-                        </div>
+
 
                         <div class="mb-3 col-12 col-md-6">
                           <label for="phone" class="form-label">Phone Number</label>
@@ -75,7 +79,7 @@
                         </div>
 
                         <div class="mb-3 col-12 col-md-6">
-                          <label for="fullName" class="form-label">Full Name</label>
+                          <label for=" fullName" class="form-label">Full Name</label>
                           <c:set var="fullNameHasBindError">
                             <form:errors path="fullName" />
                           </c:set>
@@ -115,7 +119,7 @@
                         </div>
 
                         <div class="col-12">
-                          <button type="submit" class="btn btn-primary">Sign in</button>
+                          <button type="submit" class="btn btn-primary">Update Product</button>
                         </div>
                       </form:form>
                     </div>
