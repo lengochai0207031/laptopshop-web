@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.services.ProductService;
@@ -72,7 +73,7 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product/detail/{id}")
-    public String getMethodName(Model model, @PathVariable long id) {
+    public String getDeatilString(Model model, @PathVariable long id) {
         Product product = this.productService.getProductDetail(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
@@ -114,10 +115,6 @@ public class ProductController {
 
             // Lưu sản phẩm đã cập nhật
             this.productService.SaveProduct(existingProduct);
-        } else {
-            // Xử lý trường hợp sản phẩm không tồn tại
-            model.addAttribute("errorMessage", "Product not found for update.");
-            return "error/error"; // Trang báo lỗi (nếu có trang lỗi riêng)
         }
 
         // Chuyển hướng về trang danh sách sản phẩm quản trị

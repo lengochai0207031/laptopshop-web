@@ -1,10 +1,10 @@
 package vn.hoidanit.laptopshop.controllers.client;
 
 import java.util.List;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import vn.hoidanit.laptopshop.domain.Product;
@@ -12,9 +12,9 @@ import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.services.ProductService;
 import vn.hoidanit.laptopshop.services.UserService;
-
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class homePageController {
@@ -29,11 +29,11 @@ public class homePageController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String getHomePage(Model model) {
-        List<Product> product = this.productService.getAllProducts();
+        List<Product> product = this.productService.fetchProducts();
         model.addAttribute("products", product);
-        return "client/homepage/home";
+        return "client/homepage/show";
     }
 
     @GetMapping("/register")
@@ -43,15 +43,23 @@ public class homePageController {
     }
 
     @PostMapping("/register")
+    public String handleRegister(
+            @ModelAttribute("register") @Valid RegisterDTO registerDTO,
+            BindingResult bindingResult) {
 
-    public String posCreateRegister(Model model, @ModelAttribute("register") RegisterDTO registerDTO) {
+        // validate
+        if (bindingResult.hasErrors()) {
+            return "client/auth/register";
+        }
+
         User user = this.userService.mapRegistertoUser(registerDTO);
-        String hassPasword = this.passwordEncoder.encode(user.getPassWord());
-
-        user.setPassWord(hassPasword);
+        String hashPassword = this.passwordEncoder.encode(user.getPassWord());
+        user.setPassWord(hashPassword);
         user.setRole(this.userService.getRoleName("USER"));
+        // save
         this.userService.handleSaveUser(user);
         return "redirect:/login";
+
     }
 
     @GetMapping("/login")

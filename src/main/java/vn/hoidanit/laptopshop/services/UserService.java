@@ -2,7 +2,6 @@ package vn.hoidanit.laptopshop.services;
 
 import java.util.List;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.repository.RoleRepository;
@@ -15,12 +14,11 @@ import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;;
 public class UserService {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
-  private final PasswordEncoder passwordEncoder;
 
-  public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, RoleRepository roleRepository) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
-    this.passwordEncoder = passwordEncoder;
+
   }
 
   public String handleHellos() {
@@ -38,10 +36,10 @@ public class UserService {
 
   }
 
-  public List<User> getAllUsersByEmail(String email) {
-    return this.userRepository.findByEmail(email);
+  // public List<User> getAllUsersByEmail(String email) {
+  // return this.userRepository.findByEmail(email);
 
-  }
+  // }
 
   public User getAllUsersById(long id) {
     return this.userRepository.findById(id);
@@ -66,5 +64,13 @@ public class UserService {
     user.setEmail(registerDTO.getEmail());
     user.setPassWord(registerDTO.getPassword());
     return user;
+  }
+
+  public boolean checkEmailExist(String email) {
+    return this.userRepository.existsByEmail(email);
+  }
+
+  public User getUserByEmail(String email) {
+    return this.userRepository.findByEmail(email);
   }
 }
