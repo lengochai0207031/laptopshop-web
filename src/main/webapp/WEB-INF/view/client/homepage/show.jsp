@@ -45,7 +45,7 @@
 
 
 
-        <!-- Modal Search Start -->
+        Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
@@ -62,7 +62,7 @@
             </div>
           </div>
         </div>
-        <!-- Modal Search End -->
+        <!-- Modal Search End
 
         <jsp:include page="../layout/banner.jsp" />
 

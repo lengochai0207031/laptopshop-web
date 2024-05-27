@@ -59,7 +59,7 @@ public class ProductController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
 
         }
         ///

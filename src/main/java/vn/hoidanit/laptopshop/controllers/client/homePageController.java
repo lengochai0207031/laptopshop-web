@@ -13,6 +13,7 @@ import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.services.ProductService;
 import vn.hoidanit.laptopshop.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
@@ -62,7 +63,7 @@ public class homePageController {
 
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String getLogin(Model model) {
         return "client/auth/login";
     }
