@@ -68,4 +68,8 @@ public class homePageController {
         return "client/auth/login";
     }
 
+    @RequestMapping("/access_denied")
+    public String getLogout(Model model) {
+        return "client/auth/denpy";
+    }
 }

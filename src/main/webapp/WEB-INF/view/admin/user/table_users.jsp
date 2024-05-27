@@ -42,27 +42,29 @@
                       <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
-                            <th>ID</th>
+                            <!-- <th>ID</th> -->
                             <th>Full Name</th>
                             <th>Avatar</th>
                             <th>Role</th>
-                            <th>PassWord</th>
+                            <!-- <th>PassWord</th> -->
                             <th>Phone</th>
                             <th>Email</th>
-                            <th>Address</th>
+                            <!-- <th>Address</th> -->
                           </tr>
                         </thead>
                         <tbody>
                           <c:forEach var="user" items="${users1}">
                             <tr>
-                              <td>${user.id}</td>
+                              <!-- <td>${user.id}</td> -->
                               <td>${user.fullName}</td>
-                              <td> <img src="/images/avatar/${user.avatar}" alt="images" class="img-fluid"></td>
+                              <td> <img src="/images/avatar/${user.avatar}" alt="images"
+                                  style="width: 150px; height: 150px;">
+                              </td>
                               <td>${user.role.name}</td>
-                              <td>${user.passWord}</td>
+                              <!-- <td>${user.passWord}</td> -->
                               <td>${user.phone}</td>
                               <td>${user.email}</td>
-                              <td>${user.address}</td>
+                              <!-- <td>${user.address}</td> -->
                               <td>
                                 <a href="/admin/user/${user.id}">
                                   <button class="btn btn-success">View</button></a>
