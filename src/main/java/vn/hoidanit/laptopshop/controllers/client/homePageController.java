@@ -34,6 +34,7 @@ public class homePageController {
     public String getHomePage(Model model) {
         List<Product> product = this.productService.fetchProducts();
         model.addAttribute("products", product);
+
         return "client/homepage/show";
     }
 

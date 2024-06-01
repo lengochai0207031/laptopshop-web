@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -52,6 +53,8 @@ public class User {
     @OneToMany(mappedBy = "users")
     private Set<Order> order;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
     // Getters and setters
 
     public long getId() {
@@ -131,6 +134,14 @@ public class User {
         return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
                 + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", order="
                 + order + "]";
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
 }
