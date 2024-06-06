@@ -84,14 +84,6 @@ public class Order {
         this.status = status;
     }
 
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
-    }
-
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
@@ -104,7 +96,15 @@ public class Order {
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + ", receiverName=" + receiverName
                 + ", receiverAddress=" + receiverAddress + ", receiverPhone=" + receiverPhone + ", status=" + status
-                + ", users=" + users + ", orderDetails=" + orderDetails + "]";
+                + "]";
+    }
+
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
     }
 
 }

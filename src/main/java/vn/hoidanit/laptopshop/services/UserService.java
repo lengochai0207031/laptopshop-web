@@ -67,4 +67,16 @@ public class UserService {
   public User getUserByEmail(String email) {
     return this.userRepository.findByEmail(email);
   }
+
+  public Object countUsers() {
+    return this.userRepository.count();
+  }
+
+  public Object countOrders() {
+    return this.userRepository.count();
+  }
+
+  public Object countProducts() {
+    return this.userRepository.count();
+  }
 }

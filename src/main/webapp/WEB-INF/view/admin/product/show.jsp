@@ -79,6 +79,22 @@
                           </c:forEach>
                         </tbody>
                       </table>
+
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                          <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                          </li>
+                          <c:forEach begin="0" end="${totalPage -1}" varStatus="loop">
+                            <li class="page-item"><a class="page-link" href="/admin/product?page=${loop.index + 1}">
+                                ${loop.index + 1}
+                              </a></li>
+                          </c:forEach>
+                          <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
                   </div>
                 </div>

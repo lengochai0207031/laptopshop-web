@@ -30,6 +30,9 @@
         <!-- Template Stylesheet -->
         <link href="/client/css/style.css" rel="stylesheet">
 
+
+
+        </style>
       </head>
 
       <body>
@@ -137,9 +140,33 @@
                   </div>
                 </div>
               </div>
+
+
             </div>
           </div>
         </div>
+
+
+        <nav aria-label="Page navigation example"">
+          <ul class=" pagination justify-content-center">
+          <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+            <a class="page-link" href="/?page=${currentPage - 1}" tabindex="-1"
+              aria-disabled="${currentPage == 1}">Previous</a>
+          </li>
+          <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+            <li class="page-item ${currentPage == loop.index ? 'active' : ''}">
+              <a class="page-link" href="/?page=${loop.index}">
+                ${loop.index}
+              </a>
+            </li>
+          </c:forEach>
+          <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="/?page=${currentPage + 1}" aria-disabled="${currentPage == totalPages}">Next</a>
+          </li>
+          </ul>
+        </nav>
+
+
         <!-- Fruits Shop End-->
 
         <jsp:include page="../layout/feature.jsp" />

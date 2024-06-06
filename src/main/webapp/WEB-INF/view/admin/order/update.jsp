@@ -24,9 +24,9 @@
 
 
                 <body class="sb-nav-fixed">
-                    <jsp:include page="../layout/header.jsp" />
+                    <jsp:include page="../playout/header.jsp" />
                     <div id="layoutSidenav">
-                        <jsp:include page="../layout/sidebar.jsp" />
+                        <jsp:include page="../playout/sidebar.jsp" />
                         <div id="layoutSidenav_content">
                             <main>
                                 <div class="container-fluid px-4">
@@ -61,7 +61,7 @@
                                                     <div class="mb-3 col-12 col-md-6">
                                                         <label class="form-label">User:</label>
                                                         <form:input type="text" class="form-control" disabled="true"
-                                                            path="user.fullName" />
+                                                            path="users.fullName" />
                                                     </div>
 
                                                     <div class="mb-3 col-12 col-md-6">
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             </main>
-                            <jsp:include page="../layout/footer.jsp" />
+                            <jsp:include page="../playout/footer.jsp" />
                         </div>
                     </div>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
