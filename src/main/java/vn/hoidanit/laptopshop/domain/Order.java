@@ -34,7 +34,7 @@ public class Order {
     private User users;
 
     @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;
@@ -102,7 +102,9 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
+        return "Order [id=" + id + ", totalPrice=" + totalPrice + ", receiverName=" + receiverName
+                + ", receiverAddress=" + receiverAddress + ", receiverPhone=" + receiverPhone + ", status=" + status
+                + ", users=" + users + ", orderDetails=" + orderDetails + "]";
     }
 
 }

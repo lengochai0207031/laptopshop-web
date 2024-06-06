@@ -129,19 +129,18 @@ public class User {
         this.order = order;
     }
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", order="
-                + order + "]";
-    }
-
     public Cart getCart() {
         return cart;
     }
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
 
 }

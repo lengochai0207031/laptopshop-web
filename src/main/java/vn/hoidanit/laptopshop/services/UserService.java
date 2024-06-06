@@ -29,12 +29,10 @@ public class UserService {
 
   public List<User> getUserPage() {
     return this.userRepository.findAll();
-
   }
 
   // public List<User> getAllUsersByEmail(String email) {
   // return this.userRepository.findByEmail(email);
-
   // }
 
   public User getAllUsersById(long id) {
