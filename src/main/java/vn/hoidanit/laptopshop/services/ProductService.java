@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -16,11 +16,12 @@ import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 
 import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.repository.CartDetailRepository;
-import vn.hoidanit.laptopshop.repository.CartRepository;
-import vn.hoidanit.laptopshop.repository.OrderDetailRepository;
-import vn.hoidanit.laptopshop.repository.OrderRepository;
-import vn.hoidanit.laptopshop.repository.ProductRepository;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
+import vn.hoidanit.laptopshop.controllers.repository.CartDetailRepository;
+import vn.hoidanit.laptopshop.controllers.repository.CartRepository;
+import vn.hoidanit.laptopshop.controllers.repository.OrderDetailRepository;
+import vn.hoidanit.laptopshop.controllers.repository.OrderRepository;
+import vn.hoidanit.laptopshop.controllers.repository.ProductRepository;
 
 import vn.hoidanit.laptopshop.services.specification.ProductSpec;
 
@@ -61,9 +62,23 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public Page<Product> fetchProductsWithSpec(Pageable pageable, String name) {
+    public Page<Product> fetchProductsWithSpec(Pageable pageable, ProductCriteriaDTO productCriteriaDTO) {
+        if (productCriteriaDTO.getTarget() == null
+                && productCriteriaDTO.getFactory() == null
+                && productCriteriaDTO.getPrice() == null) {
+            return this.productRepository.findAll(pageable);
+        }
+        Specification<Product> combinedSpec = Specification.where(null);
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpec = ProductSpec.matchListTarget(productCriteriaDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpec);
 
-        return this.productRepository.findAll(ProductSpec.nameLike(name), pageable);
+        }
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpec = ProductSpec.matchListFactory(productCriteriaDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        return this.productRepository.findAll(combinedSpec, pageable);
     }
 
     // // case 1
