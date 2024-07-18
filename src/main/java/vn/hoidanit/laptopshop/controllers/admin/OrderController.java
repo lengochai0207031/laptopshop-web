@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import vn.hoidanit.laptopshop.domain.Order;
-import vn.hoidanit.laptopshop.services.OderService;
+import vn.hoidanit.laptopshop.services.OrderService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class OrderController {
-    private final OderService orderService;
+    private final OrderService orderService;
 
-    public OrderController(OderService orderService) {
+    public OrderController(OrderService orderService) {
 
         this.orderService = orderService;
     }
@@ -26,7 +27,7 @@ public class OrderController {
     public String getAllOder(Model model) {
 
         List<Order> orders = new ArrayList<Order>();
-        orders = this.orderService.getAllOrder();
+        orders = this.orderService.fetchAllOrders();
         model.addAttribute("orders", orders);
         return "admin/order/show";
     }

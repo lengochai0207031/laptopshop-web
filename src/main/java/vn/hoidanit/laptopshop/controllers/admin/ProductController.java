@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controllers.admin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +40,8 @@ public class ProductController {
         Page<Product> getAllProducts = this.productService.fetchProducts(pageable);
         List<Product> products = getAllProducts.getContent();
         model.addAttribute("products", products);
-        model.addAttribute("currentPage", pageable);
-        model.addAttribute("totalPage", getAllProducts.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", getAllProducts.getTotalPages());
         return "admin/product/show";
     }
 
@@ -72,14 +73,14 @@ public class ProductController {
         String imagesProduct = this.uploadService.handleSaveUploadFile(file, "product"); // này là dẫn tơi cái tệp mà
                                                                                          // bạn muốn lưu hình ảnh ở đấy
         product.setImage(imagesProduct);
-        this.productService.SaveProduct(product);
+        this.productService.createProduct(product);
         return "redirect:/admin/product";
 
     }
 
     @GetMapping("/admin/product/detail/{id}")
     public String getDeatilString(Model model, @PathVariable long id) {
-        Product product = this.productService.getProductDetail(id);
+        Optional<Product> product = this.productService.fetchProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
         return "admin/product/detail";
@@ -87,7 +88,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProduct(Model model, @PathVariable long id) {
-        Product product = this.productService.getUpdateProduct(id);
+        Optional<Product> product = this.productService.fetchProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
         return "admin/product/update";
@@ -96,18 +97,20 @@ public class ProductController {
     @PostMapping("/admin/product/update")
     public String postUpdateProduct(Model model, @ModelAttribute("product") Product product,
             @RequestParam("fileName") MultipartFile file) {
-        // Lấy sản phẩm cần cập nhật theo ID
-        Product existingProduct = this.productService.getUpdateProduct(product.getId());
+        // Fetch the product to be updated by ID
+        Optional<Product> existingProductOptional = this.productService.fetchProductById(product.getId());
 
-        // Kiểm tra nếu sản phẩm tồn tại
-        if (existingProduct != null) {
-            // Xử lý upload file ảnh và lấy đường dẫn ảnh nếu có tệp mới
-            String imageFilePath = existingProduct.getImage(); // Giữ lại ảnh hiện tại
+        // Check if the product exists
+        if (existingProductOptional.isPresent()) {
+            Product existingProduct = existingProductOptional.get();
+
+            // Handle file upload and get the image path if a new file is provided
+            String imageFilePath = existingProduct.getImage(); // Keep the current image
             if (!file.isEmpty()) {
                 imageFilePath = this.uploadService.handleSaveUploadFile(file, "product");
             }
 
-            // Cập nhật thông tin sản phẩm
+            // Update product information
             existingProduct.setName(product.getName());
             existingProduct.setPrice(product.getPrice());
             existingProduct.setImage(imageFilePath);
@@ -118,11 +121,15 @@ public class ProductController {
             existingProduct.setFactory(product.getFactory());
             existingProduct.setTarget(product.getTarget());
 
-            // Lưu sản phẩm đã cập nhật
-            this.productService.SaveProduct(existingProduct);
+            // Save the updated product
+            this.productService.createProduct(existingProduct);
+        } else {
+            // If product does not exist, add an error message to the model
+            model.addAttribute("error", "Product not found");
+            return "error/404"; // Return to an error page or handle accordingly
         }
 
-        // Chuyển hướng về trang danh sách sản phẩm quản trị
+        // Redirect to the admin product list page
         return "redirect:/admin/product";
     }
 
@@ -136,7 +143,7 @@ public class ProductController {
 
     @PostMapping("/admin/product/delete")
     public String showDeleteProductPage(Model model, @ModelAttribute("product") Product product) {
-        this.productService.deleteProductById(product.getId());
+        this.productService.deleteProduct(product.getId());
         return "redirect:/admin/product";
     }
 

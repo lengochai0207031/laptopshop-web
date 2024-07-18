@@ -31,7 +31,7 @@ public class Order {
     // user id
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User users;
+    private User user;
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
@@ -99,12 +99,11 @@ public class Order {
                 + "]";
     }
 
-    public User getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(User users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
-
 }

@@ -1,21 +1,22 @@
 package vn.hoidanit.laptopshop.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import vn.hoidanit.laptopshop.controllers.repository.RoleRepository;
-import vn.hoidanit.laptopshop.controllers.repository.UserRepository;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;;
+import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
+import vn.hoidanit.laptopshop.repository.RolesRepository;
+import vn.hoidanit.laptopshop.repository.UserRepository;;
 
 @Service
 public class UserService {
   private final UserRepository userRepository;
-  private final RoleRepository roleRepository;
+  private final RolesRepository roleRepository;
 
-  public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+  public UserService(UserRepository userRepository, RolesRepository roleRepository) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
 
@@ -35,8 +36,8 @@ public class UserService {
   // return this.userRepository.findByEmail(email);
   // }
 
-  public User getAllUsersById(long id) {
-    return this.userRepository.findById(id);
+  public Optional<User> getAllUsersById(long id) {
+    return Optional.of(this.userRepository.findById(id));
 
   }
 

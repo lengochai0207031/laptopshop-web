@@ -11,10 +11,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -50,14 +46,12 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user") // Corrected here
     private Set<Order> order;
 
-
-
-    
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
     // Getters and setters
 
     public long getId() {
@@ -145,5 +139,4 @@ public class User {
         return "User [id=" + id + ", email=" + email + ", passWord=" + passWord + ", fullName=" + fullName
                 + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
-
 }

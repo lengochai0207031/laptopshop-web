@@ -2,54 +2,49 @@ package vn.hoidanit.laptopshop.controllers.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.services.ProductService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestParam;
-
 @Controller
-public class itemControllers {
+public class ItemController {
+
     private final ProductService productService;
 
-    public itemControllers(ProductService productService) {
+    public ItemController(ProductService productService) {
         this.productService = productService;
     }
 
-    @GetMapping("/detail/{id}")
-    public String getDetailsHomePage(Model model, @PathVariable long id) {
-        Product product = this.productService.getProductDetail(id);
+    @GetMapping("/product/{id}")
+    public String getProductPage(Model model, @PathVariable long id) {
+        Product pr = this.productService.fetchProductById(id).get();
+        model.addAttribute("product", pr);
         model.addAttribute("id", id);
-        model.addAttribute("product", product);
         return "client/product/detail";
     }
-
-    // thêm cart nha bạn
 
     @PostMapping("/add-product-to-cart/{id}")
     public String addProductToCart(@PathVariable long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+
         long productId = id;
         String email = (String) session.getAttribute("email");
 
-        this.productService.handleAddProductToCart(email, productId, session);
+        this.productService.handleAddProductToCart(email, productId, session, 1);
+
         return "redirect:/";
     }
 
@@ -136,63 +131,15 @@ public class itemControllers {
         return "client/cart/thanks";
     }
 
-    @GetMapping("/products")
-    public String getProductPage(Model model,
-            ProductCriteriaDTO productCriteriaDTO) {
-        int page = 1;
-        try {
-            if (productCriteriaDTO.getPage().isPresent()) {
-                // convert from String to int
-                page = Integer.parseInt(productCriteriaDTO.getPage().get());
-            } else {
-                // page = 1
-            }
-        } catch (Exception e) {
-            // page = 1
-            // TODO: handle exception
-        }
+    @PostMapping("/add-product-from-view-detail")
+    public String handleAddProductFromViewDetail(
+            @RequestParam("id") long id,
+            @RequestParam("quantity") long quantity,
+            HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-        // // case 1
-        // double min = minOptional.isPresent() ? Double.parseDouble(minOptional.get())
-        // : 0;
-        // Page<Product> prs = this.productService.fetchProductsWithSpecs(pageable,
-        // min);
-
-        // // case 2
-        // double max = maxOptional.isPresent() ? Double.parseDouble(maxOptional.get())
-        // : 0;
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, max);
-
-        // // case 3
-        // String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-        // factory);
-
-        // // case 4
-        // List<String> factory = Arrays.asList(factoryOptional.get().split(","));
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-        // factory);
-
-        // // case 5
-        // String price = priceOptional.isPresent() ? priceOptional.get() : "";
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-        // price);
-
-        // // case 6
-        // List<String> price = Arrays.asList(priceOptional.get().split(","));
-        // Page<Product> prs = this.productService.fetchProductsWithSpec(pageable,
-        // price);
-
-        Pageable pageable = PageRequest.of(page - 1, 60);
-
-        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
-        List<Product> products = prs.getContent().size() > 0 ? prs.getContent()
-                : new ArrayList<Product>();
-
-        model.addAttribute("products", products);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", prs.getTotalPages());
-        return "client/homepage/products";
+        String email = (String) session.getAttribute("email");
+        this.productService.handleAddProductToCart(email, id, session, quantity);
+        return "redirect:/product/" + id;
     }
-
 }

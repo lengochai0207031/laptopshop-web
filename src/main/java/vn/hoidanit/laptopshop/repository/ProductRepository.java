@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.controllers.repository;
+package vn.hoidanit.laptopshop.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Page<Product> findAll(Specification<Product> spec, Pageable pageable);
 
-    Optional<Product> findById(long id);
+    Product findById(long id);
 
     void deleteById(long id);
 

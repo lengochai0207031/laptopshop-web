@@ -5,6 +5,8 @@ import vn.hoidanit.laptopshop.services.UploadService;
 import vn.hoidanit.laptopshop.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +45,7 @@ public class UserController {
 
     @GetMapping("/admin/user/{id}")
     public String getDetailUser(Model model, @PathVariable long id) {
-        User user = this.userService.getAllUsersById(id);
+        Optional<User> user = this.userService.getAllUsersById(id);
         System.out.println("check >>>> " + user);
         // user bên này thì chuyền bên user . bên kia như z nha chứ sao không hiển dữ
         // liệu lên đưoẹc nha bjan
@@ -94,7 +96,7 @@ public class UserController {
 
     @GetMapping("/admin/user/update/{id}")
     public String getUpdatePage(Model model, @PathVariable long id) {
-        User updateUser = this.userService.getAllUsersById(id);
+        Optional<User> updateUser = this.userService.getAllUsersById(id);
         System.out.println("checkk >>>>> " + updateUser);
         model.addAttribute("newUser", updateUser);
 
@@ -103,13 +105,14 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUpdate(Model model, @ModelAttribute("newUser") User hoidanit) {
-        User updateUser = this.userService.getAllUsersById(hoidanit.getId());
-        if (updateUser != null) {
-            updateUser.setEmail(hoidanit.getEmail());
-            updateUser.setFullName(hoidanit.getFullName());
-            updateUser.setAddress(hoidanit.getAddress());
-            updateUser.setPhone(hoidanit.getPhone());
-            this.userService.handleSaveUser(updateUser);
+        Optional<User> updateUser = this.userService.getAllUsersById(hoidanit.getId());
+        if (updateUser.isPresent()) {
+            User user = updateUser.get();
+            user.setEmail(hoidanit.getEmail());
+            user.setFullName(hoidanit.getFullName());
+            user.setAddress(hoidanit.getAddress());
+            user.setPhone(hoidanit.getPhone());
+            this.userService.handleSaveUser(user);
         }
         return "redirect:/admin/user";
     }
@@ -118,7 +121,7 @@ public class UserController {
     public String getDeleteUseString(Model model, @PathVariable long id) {
         // User user = new User();
         // user.setId(id);
-        User user = this.userService.getAllUsersById(id);
+        Optional<User> user = this.userService.getAllUsersById(id);
         System.out.println("check >>>> " + user);
         // user bên này thì chuyền bên user . bên kia như z nha chứ sao không hiển dữ
         // liệu lên đưoẹc nha bjan
