@@ -18,6 +18,7 @@ import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.services.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -137,20 +138,12 @@ public class itemControllers {
 
     @GetMapping("/products")
     public String getProductPage(Model model,
-
-            @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional
-    // @RequestParam("min-price") Optional<String> minOptional,
-    // @RequestParam("max-price") Optional<String> maxOptional,
-    // @RequestParam("factory") Optional<String> factoryOptional,
-    // @RequestParam("price") Optional<String> priceOptional
-
-    ) {
+            ProductCriteriaDTO productCriteriaDTO) {
         int page = 1;
         try {
-            if (pageOptional.isPresent()) {
+            if (productCriteriaDTO.getPage().isPresent()) {
                 // convert from String to int
-                page = Integer.parseInt(pageOptional.get());
+                page = Integer.parseInt(productCriteriaDTO.getPage().get());
             } else {
                 // page = 1
             }
@@ -159,7 +152,6 @@ public class itemControllers {
             // TODO: handle exception
         }
 
-        String name = nameOptional.isPresent() ? nameOptional.get() : "";
         // // case 1
         // double min = minOptional.isPresent() ? Double.parseDouble(minOptional.get())
         // : 0;
@@ -193,8 +185,9 @@ public class itemControllers {
 
         Pageable pageable = PageRequest.of(page - 1, 60);
 
-        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, name);
-        List<Product> products = prs.getContent();
+        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent()
+                : new ArrayList<Product>();
 
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);

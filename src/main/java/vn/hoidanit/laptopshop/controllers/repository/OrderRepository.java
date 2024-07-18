@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.repository;
+package vn.hoidanit.laptopshop.controllers.repository;
 
 import java.util.List;
 import java.util.Optional;

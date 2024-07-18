@@ -60,7 +60,7 @@
                               <td>${product.id}</td>
                               <td>${product.name}</td>
                               <td>${product.price}</td>
-                              <td><img src="/images/product/${product.image}" alt="Product item" class="img-fluid"></td>
+                              <td><img src="/images/product/${product.image}" alt="Product item" ></td>
                               <td>${product.detailDesc}</td>
                               <td>${product.shortDesc}</td>
                               <td>${product.quantity}</td>

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import vn.hoidanit.laptopshop.domain.Order;
-import vn.hoidanit.laptopshop.repository.OrderRepository;
+import vn.hoidanit.laptopshop.controllers.repository.OrderRepository;
 
 @Service
 public class OderService {
