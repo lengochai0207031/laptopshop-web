@@ -60,7 +60,7 @@
                               <td>${product.id}</td>
                               <td>${product.name}</td>
                               <td>${product.price}</td>
-                              <td><img src="/images/product/${product.image}" alt="Product item" ></td>
+                              <td><img src="/images/product/${product.image}" alt="Product item"></td>
                               <td>${product.detailDesc}</td>
                               <td>${product.shortDesc}</td>
                               <td>${product.quantity}</td>
@@ -80,21 +80,27 @@
                         </tbody>
                       </table>
 
-                      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                          <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                      <nav aria-label="Page navigation example"">
+                        <ul class=" pagination justify-content-center">
+                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                          <a class="page-link" href="/admin/product/?page=${currentPage - 1}" tabindex="-1"
+                            aria-disabled="${currentPage == 1}">Previous</a>
+                        </li>
+                        <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                          <li class="page-item ${currentPage == loop.index ? 'active' : ''}">
+                            <a class="page-link" href="/admin/product/?page=${loop.index}">
+                              ${loop.index}
+                            </a>
                           </li>
-                          <c:forEach begin="0" end="${totalPage -1}" varStatus="loop">
-                            <li class="page-item"><a class="page-link" href="/admin/product?page=${loop.index + 1}">
-                                ${loop.index + 1}
-                              </a></li>
-                          </c:forEach>
-                          <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                          </li>
+                        </c:forEach>
+                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                          <a class="page-link" href="/admin/product/?page=${currentPage + 1}"
+                            aria-disabled="${currentPage == totalPages}">Next</a>
+                        </li>
                         </ul>
                       </nav>
+
+
                     </div>
                   </div>
                 </div>

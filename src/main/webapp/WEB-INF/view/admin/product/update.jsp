@@ -54,8 +54,8 @@
                     <div class="col-md-6 col-12 mx-auto">
                       <h3>Update a Product</h3>
                       <hr />
-                      <form:form class="row g-3" method="post" action="/admin/product/update" modelAttribute="product"
-                        enctype="multipart/form-data">
+                      <form:form class="row g-3" method="post" action="/admin/product/update"
+                        modelAttribute="newProduct" enctype="multipart/form-data">
                         <div class="mb-3 col-12 col-md-6" style="display: none">
                           <label for="id" class="form-label">ID Product</label>
                           <form:input type="text" class="form-control" id="id" placeholder=" id product" path="id" />

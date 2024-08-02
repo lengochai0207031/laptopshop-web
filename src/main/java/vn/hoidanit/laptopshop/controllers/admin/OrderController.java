@@ -16,28 +16,46 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class OrderController {
+
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
-
         this.orderService = orderService;
     }
 
     @GetMapping("/admin/order")
-    public String getAllOder(Model model) {
-
-        List<Order> orders = new ArrayList<Order>();
-        orders = this.orderService.fetchAllOrders();
+    public String getDashboard(Model model) {
+        List<Order> orders = this.orderService.fetchAllOrders();
         model.addAttribute("orders", orders);
         return "admin/order/show";
     }
 
-    @GetMapping("/admin/order/update/{id}")
-    public String getUpdateOrder(Model model, @PathVariable Long id) {
-        Optional<Order> order = this.orderService.fetchOrderById(id);
-        model.addAttribute("newOrder", order.orElse(new Order())); // Nếu không tìm thấy order, trả về một Order mới để
-                                                                   // tránh NullPointerException
+    @GetMapping("/admin/order/{id}")
+    public String getOrderDetailPage(Model model, @PathVariable long id) {
+        Order order = this.orderService.fetchOrderById(id).get();
+        model.addAttribute("order", order);
         model.addAttribute("id", id);
+        model.addAttribute("orderDetails", order.getOrderDetails());
+        return "admin/order/detail";
+    }
+
+    @GetMapping("/admin/order/delete/{id}")
+    public String getDeleteOrderPage(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newOrder", new Order());
+        return "admin/order/delete";
+    }
+
+    @PostMapping("/admin/order/delete")
+    public String postDeleteOrder(@ModelAttribute("newOrder") Order order) {
+        this.orderService.deleteOrderById(order.getId());
+        return "redirect:/admin/order";
+    }
+
+    @GetMapping("/admin/order/update/{id}")
+    public String getUpdateOrderPage(Model model, @PathVariable long id) {
+        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
+        model.addAttribute("newOrder", currentOrder.get());
         return "admin/order/update";
     }
 
@@ -46,5 +64,4 @@ public class OrderController {
         this.orderService.updateOrder(order);
         return "redirect:/admin/order";
     }
-
 }

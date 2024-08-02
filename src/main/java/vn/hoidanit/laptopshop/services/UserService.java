@@ -23,8 +23,7 @@ public class UserService {
   }
 
   public User handleSaveUser(User user) {
-    User eric = this.userRepository.save(user);
-    return eric;
+    return this.userRepository.save(user);
 
   }
 
@@ -32,12 +31,8 @@ public class UserService {
     return this.userRepository.findAll();
   }
 
-  // public List<User> getAllUsersByEmail(String email) {
-  // return this.userRepository.findByEmail(email);
-  // }
-
-  public Optional<User> getAllUsersById(long id) {
-    return Optional.of(this.userRepository.findById(id));
+  public User getAllUsersById(long id) {
+    return this.userRepository.findById(id);
 
   }
 

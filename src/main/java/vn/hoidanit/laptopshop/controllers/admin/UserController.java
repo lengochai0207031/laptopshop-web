@@ -44,14 +44,15 @@ public class UserController {
     }
 
     @GetMapping("/admin/user/{id}")
-    public String getDetailUser(Model model, @PathVariable long id) {
-        Optional<User> user = this.userService.getAllUsersById(id);
+    public String getDetailUser(Model model, @PathVariable("id") long id) {
+        User user = userService.getAllUsersById(id);
+        if (user == null) {
+            // Handle the case where user is not found
+            return "error/404"; // Redirect to a 404 error page or a custom error view
+        }
         System.out.println("check >>>> " + user);
-        // user bên này thì chuyền bên user . bên kia như z nha chứ sao không hiển dữ
-        // liệu lên đưoẹc nha bjan
         model.addAttribute("user", user);
-        model.addAttribute("id", id);
-        return "/admin/user/detailUser";
+        return "admin/user/detailUser"; // Remove leading slash
     }
 
     @GetMapping("/admin/user/create") // GET
@@ -96,7 +97,7 @@ public class UserController {
 
     @GetMapping("/admin/user/update/{id}")
     public String getUpdatePage(Model model, @PathVariable long id) {
-        Optional<User> updateUser = this.userService.getAllUsersById(id);
+        User updateUser = this.userService.getAllUsersById(id);
         System.out.println("checkk >>>>> " + updateUser);
         model.addAttribute("newUser", updateUser);
 
@@ -105,9 +106,9 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUpdate(Model model, @ModelAttribute("newUser") User hoidanit) {
-        Optional<User> updateUser = this.userService.getAllUsersById(hoidanit.getId());
-        if (updateUser.isPresent()) {
-            User user = updateUser.get();
+        User updateUser = this.userService.getAllUsersById(hoidanit.getId());
+        if (updateUser == null) {
+            User user = updateUser;
             user.setEmail(hoidanit.getEmail());
             user.setFullName(hoidanit.getFullName());
             user.setAddress(hoidanit.getAddress());
@@ -121,7 +122,7 @@ public class UserController {
     public String getDeleteUseString(Model model, @PathVariable long id) {
         // User user = new User();
         // user.setId(id);
-        Optional<User> user = this.userService.getAllUsersById(id);
+        User user = this.userService.getAllUsersById(id);
         System.out.println("check >>>> " + user);
         // user bên này thì chuyền bên user . bên kia như z nha chứ sao không hiển dữ
         // liệu lên đưoẹc nha bjan

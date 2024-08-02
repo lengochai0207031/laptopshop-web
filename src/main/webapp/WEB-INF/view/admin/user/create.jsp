@@ -39,8 +39,8 @@
                     <div class="col-md-6 col-12 mx-auto">
                       <h3>Create a user</h3>
                       <hr />
-                      <form:form class="row g-3" method="post" action="/admin/user/create" modelAttribute="newUser"
-                        enctype="multipart/form-data">
+                      <%--@elvariable id="newUser" type=""--%>
+                      <form:form class="row g-3" method="post" action="/admin/user/create" modelAttribute="newUser" enctype="multipart/form-data">
                         <div class="mb-3 col-12 col-md-6">
                           <label for="email" class="form-label">Email address</label>
                           <c:set var="emailHasBindError">

@@ -45,8 +45,8 @@
                     <div class="col-md-6 col-12 mx-auto">
                       <h3>Create a Product</h3>
                       <hr />
-                      <form:form class="row g-3" method="post" action="/admin/product/create" modelAttribute="product"
-                        enctype="multipart/form-data">
+                      <form:form class="row g-3" method="post" action="/admin/product/create"
+                        modelAttribute="newProduct" enctype="multipart/form-data">
                         <div class="mb-3 col-12 col-md-6">
                           <label for="name" class="form-label">Name Product</label>
                           <form:input type="text" class="form-control is-invalid" id="name" placeholder="Product Name"
@@ -70,9 +70,9 @@
                         </div>
                         <div class="mb-3">
                           <label for="detailDesc" class="form-label">DetailDesc Products</label>
-                          <form:textarea class="form-control" id="detailDesc" rows="3" path="detailDesc">
-                          </form:textarea>
+                          <form:textarea class="form-control" id="detailDesc" rows="3" path="detailDesc" />
                         </div>
+
                         <div class="mb-3">
                           <label for="shortDesc" class="form-label">ShortDesc Products</label>
                           <form:textarea class="form-control" id="shortDesc" rows="3" path="shortDesc"></form:textarea>
