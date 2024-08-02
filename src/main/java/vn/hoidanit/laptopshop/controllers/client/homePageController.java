@@ -112,28 +112,4 @@ public class homePageController {
         return "client/cart/order-history";
     }
 
-    @GetMapping("/products")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
-        int page = 1;
-        try {
-            if (pageOptional.isPresent()) {
-                // convert from String to int
-                page = Integer.parseInt(pageOptional.get());
-            } else {
-                // page = 1
-            }
-        } catch (Exception e) {
-            // page = 1
-            // TODO: handle exception
-        }
-
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> products = prs.getContent();
-
-        model.addAttribute("products", products);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", prs.getTotalPages());
-        return "client/product/product";
-    }
 }
